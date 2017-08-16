@@ -6,7 +6,7 @@
 
   <groupId>by.restrictor</groupId>
   <artifactId>lifestat</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.3</version>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
@@ -27,6 +27,12 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-thymeleaf</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>9.3-1100-jdbc41</version>
     </dependency>
 
     <!-- Runtime -->
