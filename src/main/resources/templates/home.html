@@ -5,26 +5,56 @@
   <title>LifeStat</title>
 </head>
 <body>
-  <h1 th:text="${hello}">Error</h1>
-  <form method="post">
-    <input type="date" name="date"/>
-    <input name="category"/>
-    <input type="number" step="0.01" name="amount"/>
-    <input type="submit"/>
-  </form>
-  <table>
-    <tr>
-      <th>id</th>
-      <th>date</th>
-      <th>category</th>
-      <th>amount</th>
-    </tr>
-    <tr th:each="sp: ${spendings}">
-      <td th:text="${sp.id}"></td>
-      <td th:text="${sp.date}"></td>
-      <td th:text="${sp.category}"></td>
-      <td th:text="${sp.amount}"></td>
-    </tr>
-  </table>
+
+  <nav>
+    <h1>Home</h1>
+    <h1><a href="income">Incomes</a></h1>
+  </nav>
+
+  <div>
+    <h2>New entry</h2>
+    <form method="post">
+      <label for="date">Date:</label>
+      <input type="date" name="date" id="date"/>
+      <label for="category">Category:</label>
+      <input name="category" id="category"/>
+      <label for="amount">Amount:</label>
+      <input type="number" step="0.01" name="amount" id="amount"/>
+      <input type="submit" value="Save"/>
+    </form>
+  </div>
+
+  <div>
+    <h2>Recent</h2>
+    <table>
+      <tr>
+        <th>id</th>
+        <th>date</th>
+        <th>category</th>
+        <th>amount</th>
+      </tr>
+      <tr th:each="sp: ${spendings}">
+        <td th:text="${sp.id}"></td>
+        <td th:text="${sp.date}"></td>
+        <td th:text="${sp.category}"></td>
+        <td th:text="${sp.amount}"></td>
+      </tr>
+    </table>
+  </div>
+
+  <div>
+    <h2>Current Month</h2>
+    <table>
+      <tr>
+        <th>Date</th>
+        <th th:each="c: ${categories}" th:text="${c}"></th>
+      </tr>
+      <tr th:each="ds: ${dailySpendings}">
+        <td th:text="${ds.key}"></td>
+        <td th:each="am: ${ds.value}" th:text="${am}"></td>
+      </tr>
+    </table>
+  </div>
+
 </body>
 </html>

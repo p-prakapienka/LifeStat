@@ -1,9 +1,11 @@
 package by.restrictor.lifestat.controller;
 
+import static by.restrictor.lifestat.model.Categories.CATEGORIES;
+
 import by.restrictor.lifestat.model.Income;
 import by.restrictor.lifestat.model.Spending;
 import by.restrictor.lifestat.repository.IncomeRepository;
-import by.restrictor.lifestat.repository.SpendingRepository;
+import by.restrictor.lifestat.service.SpendingService;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +21,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class RootController {
 
     @Autowired
-    private SpendingRepository spendingRepository;
+    private SpendingService spendingService;
 
     @Autowired
     private IncomeRepository incomeRepository;
 
     @GetMapping
     public String root(Model model) {
-        List<Spending> spendings = spendingRepository.findAll();
-        model.addAttribute("hello", "hello");
+        List<Spending> spendings = spendingService.getRecentSpendings();
         model.addAttribute("spendings", spendings);
+
+        model.addAttribute("categories", CATEGORIES);
+
+        model.addAttribute("dailySpendings", spendingService.getDailySpendings());
         return "home";
     }
 
@@ -37,7 +42,7 @@ public class RootController {
     public String save(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
         @RequestParam("category") String category, @RequestParam("amount") double amount) {
         Spending spending = new Spending(date, category, amount);
-        spendingRepository.save(spending);
+        spendingService.save(spending);
         return "redirect:home";
     }
 
