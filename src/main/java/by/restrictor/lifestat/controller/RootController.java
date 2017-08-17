@@ -7,7 +7,9 @@ import by.restrictor.lifestat.model.Spending;
 import by.restrictor.lifestat.repository.IncomeRepository;
 import by.restrictor.lifestat.service.SpendingService;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -33,7 +35,12 @@ public class RootController {
 
         model.addAttribute("categories", CATEGORIES);
 
-        model.addAttribute("dailySpendings", spendingService.getDailySpendings());
+        Map<LocalDate, double[]> dailySpendings = spendingService.getDailySpendings();
+        model.addAttribute("dailySpendings", dailySpendings);
+
+        double total = countTotal(dailySpendings.values());
+        double incomes = incomeRepository.findAll().stream().findFirst().orElse(new Income()).getAmount();
+        model.addAttribute("balance", incomes - total);
         return "home";
     }
 
@@ -59,6 +66,18 @@ public class RootController {
                              @RequestParam("amount") double amount) {
         incomeRepository.save(new Income(date, source, type, amount));
         return "redirect:income";
+    }
+
+    private Double countTotal(Collection<double[]> spendingsArrays) {
+        return spendingsArrays.stream()
+            .mapToDouble(a -> {
+                double dailyTotal = 0d;
+                for (double amount : a) {
+                    dailyTotal += amount;
+                }
+                return dailyTotal;
+            })
+            .sum();
     }
 
 }
