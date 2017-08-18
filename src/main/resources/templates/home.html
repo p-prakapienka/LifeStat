@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css"/>
 
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -37,7 +39,9 @@
           <h5>New entry</h5>
           <div class="divider"></div>
           <p th:text="'Current Balance: ' + ${balance}"></p>
-          <form method="post">
+          <label>Bill sum:</label>
+          <input type="number" step="0.01" id="bill-sum"/>
+          <form method="post" id="spending-form">
             <div class="row">
               <label for="date" class="">Date:</label>
               <input type="date" name="date" id="date"/>
@@ -107,7 +111,20 @@
 
   <script>
     $(document).ready(function () {
+      var billSum = $('#bill-sum');
+      billSum.val($.cookie('billSum') ? $.cookie('billSum') : '');
+
       $('#category').material_select();
+
+      $('#spending-form').submit(function (event) {
+        var billValue = $('#bill-sum').val();
+        if (billValue > 0) {
+          billValue -= $('#amount').val();
+          $.cookie('billSum', billValue);
+        } else {
+          $.cookie('billSum', null);
+        }
+      });
     });
   </script>
 
