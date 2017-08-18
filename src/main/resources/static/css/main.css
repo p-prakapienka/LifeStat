@@ -1,0 +1,7 @@
+html {
+  overflow: auto;
+}
+
+.scrollable {
+  overflow-x: scroll;
+}
