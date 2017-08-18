@@ -5,6 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 
 @Entity
@@ -16,6 +17,7 @@ public class Spending {
     private Long id;
 
     @Column(name = "date")
+    @OrderBy(value = "DESC")
     private LocalDate date;
 
     @Column(name = "category")

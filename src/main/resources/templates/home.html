@@ -35,7 +35,8 @@
       <div class="row">
         <div class="col s12 m6">
           <h5>New entry</h5>
-          <h6 th:text="'Current Balance: ' + ${balance}"></h6>
+          <div class="divider"></div>
+          <p th:text="'Current Balance: ' + ${balance}"></p>
           <form method="post">
             <div class="row">
               <label for="date" class="">Date:</label>
@@ -62,13 +63,11 @@
           <h5>Recent</h5>
           <table class="bordered">
             <tr>
-              <th>id</th>
               <th>date</th>
               <th>category</th>
               <th>amount</th>
             </tr>
             <tr th:each="sp: ${spendings}">
-              <td th:text="${sp.id}"></td>
               <td th:text="${sp.date}"></td>
               <td th:text="${sp.category}"></td>
               <td th:text="${sp.amount}"></td>
@@ -83,16 +82,24 @@
         <h5>Current Month</h5>
       </div>
       <div class="row scrollable" style="overflow: auto;">
-        <table class="bordered">
-          <tr>
-            <th>Date</th>
-            <th th:each="c: ${categories}" th:text="${c}"></th>
-          </tr>
-          <tr th:each="ds: ${dailySpendings}">
-            <td th:text="${ds.key}"></td>
-            <td th:each="am: ${ds.value}" th:text="${am}"></td>
-          </tr>
-        </table>
+        <div class="col s2">
+          <table class="bordered">
+            <tr><th>Date</th></tr>
+            <tr th:each="ds: ${dailySpendings}">
+              <td th:text="${ds.key}"></td>
+            </tr>
+          </table>
+        </div>
+        <div class="col s10">
+          <table class="bordered">
+            <tr>
+              <th th:each="c: ${categories}" th:text="${c}"></th>
+            </tr>
+            <tr th:each="ds: ${dailySpendings}">
+              <td th:each="am: ${ds.value}" th:text="${am}"></td>
+            </tr>
+          </table>
+        </div>
       </div>
     </div>
 

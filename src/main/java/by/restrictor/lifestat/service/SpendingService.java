@@ -4,6 +4,8 @@ import static by.restrictor.lifestat.model.Categories.CATEGORIES;
 
 import by.restrictor.lifestat.model.Spending;
 import by.restrictor.lifestat.repository.SpendingRepository;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +34,8 @@ public class SpendingService {
             v.forEach(s -> {
                 double[] row = spendingsByCategory.get(k);
                 int index = CATEGORIES.indexOf(s.getCategory());
-                row[index] = row[index] + s.getAmount();
+                BigDecimal result = new BigDecimal(row[index]).add(new BigDecimal(s.getAmount()));
+                row[index] = result.setScale(2, RoundingMode.HALF_UP).doubleValue();
             });
         });
         return spendingsByCategory;
