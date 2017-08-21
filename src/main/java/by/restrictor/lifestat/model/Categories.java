@@ -7,7 +7,7 @@ public class Categories {
 
     public static final List<String> CATEGORIES = Arrays.asList(
         "Food", "Cigarettes", "Entertainment", "Transport", "Household", "Communication",
-        "Hobby", "Major", "Debt", "Rent"
+        "Hobby", "Major", "Debt", "Rent", "Bank Charges"
     );
 
 }

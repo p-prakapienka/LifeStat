@@ -28,7 +28,7 @@ public class RootController {
     @Autowired
     private IncomeRepository incomeRepository;
 
-    @GetMapping
+    @GetMapping("/")
     public String root(Model model) {
         List<Spending> spendings = spendingService.getRecentSpendings();
         model.addAttribute("spendings", spendings);
@@ -44,7 +44,7 @@ public class RootController {
         return "home";
     }
 
-    @PostMapping
+    @PostMapping("/")
     @Transactional
     public String save(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
         @RequestParam("category") String category, @RequestParam("amount") double amount) {

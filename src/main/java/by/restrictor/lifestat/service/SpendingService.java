@@ -7,6 +7,7 @@ import by.restrictor.lifestat.repository.SpendingRepository;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -21,7 +22,9 @@ public class SpendingService {
     private SpendingRepository spendingRepository;
 
     public List<Spending> getRecentSpendings() {
-        return spendingRepository.findAll();
+        return spendingRepository.findAll().stream()
+            .sorted(Comparator.comparing(Spending::getDate).reversed())
+            .collect(Collectors.toList());
     }
 
     public Map<LocalDate, double[]> getDailySpendings() {
