@@ -50,7 +50,7 @@ public class RootController {
         @RequestParam("category") String category, @RequestParam("amount") double amount) {
         Spending spending = new Spending(date, category, amount);
         spendingService.save(spending);
-        return "redirect:home";
+        return "redirect:/";
     }
 
     @GetMapping("/income")

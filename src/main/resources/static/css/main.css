@@ -5,3 +5,11 @@ html {
 .scrollable {
   overflow-x: auto;
 }
+
+#debt-return {
+  display: none;
+}
+
+#debt-return.active {
+  display: block;
+}
