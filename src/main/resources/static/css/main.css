@@ -6,6 +6,11 @@ html {
   overflow-x: auto;
 }
 
+.container {
+  width: 90% !important;
+  max-width: inherit;
+}
+
 #debt-return {
   display: none;
 }

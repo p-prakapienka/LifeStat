@@ -106,6 +106,9 @@
               <td th:text="${ds.bankAmount}"></td>
               <td th:text="${ds.total}"></td>
             </tr>
+            <tr style="font-weight:500;border:none;">
+              <td th:each="ct: ${catTotals}" th:text="${ct}"></td>
+            </tr>
           </table>
         </div>
       </div>
