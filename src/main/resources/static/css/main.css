@@ -4,6 +4,15 @@ html {
 
 .scrollable {
   overflow-x: auto;
+  min-width: 700px;
+}
+
+#sidenav-overlay {
+  z-index: 1;
+}
+
+.side-nav {
+  top: 58px;
 }
 
 .container {
@@ -17,4 +26,32 @@ html {
 
 #debt-return.active {
   display: block;
+}
+
+/* TABLES */
+#dates {
+  min-width: 110px;
+}
+
+#dates td {
+  position: relative;
+}
+
+#dates td > a {
+  position: absolute;
+  top: 13px;
+  right: 5px;
+}
+
+#spendings {
+  width: calc(100% - 110px);
+  table-layout: fixed;
+}
+
+#spendings th, #spendings td {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+  width: calc(100% / 12);
 }
