@@ -47,7 +47,7 @@ public class RootController {
         model.addAttribute("catTotals", categoryTotals);
 
         double total = countTotal(dailyStatements);
-        double incomes = incomeRepository.findAll().stream().findFirst().orElse(new Income()).getAmount();
+        double incomes = incomeRepository.findAll().stream().mapToDouble(Income::getAmount).sum();
         model.addAttribute("balance", incomes - total);
         return "home";
     }
@@ -66,21 +66,6 @@ public class RootController {
 
         spendingService.submitDate(date);
         return "redirect:/";
-    }
-
-    @GetMapping("/income")
-    public String getIncome(Model model) {
-        List<Income> incomes = incomeRepository.findAll();
-        model.addAttribute("incomes", incomes);
-        return "salary";
-    }
-
-    @PostMapping("/income")
-    public String saveIncome(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-                             @RequestParam("source") String source, @RequestParam("type") String type,
-                             @RequestParam("amount") double amount) {
-        incomeRepository.save(new Income(date, source, type, amount));
-        return "redirect:income";
     }
 
     private Double countTotal(Collection<DailyStatement> dailyStatements) {

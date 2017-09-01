@@ -24,8 +24,9 @@
     </div>
 
     <div class="container">
-        <div class="row">
 
+      <div class="section">
+        <div class="row">
           <div class="col s12 m6">
             <h5>New entry</h5>
             <form method="post">
@@ -38,8 +39,12 @@
                 <input name="source" id="source"/>
               </div>
               <div class="row">
-                <label for="type">Type:</label>
-                <input name="type" id="type"/>
+                <div class="input-field">
+                  <select name="type" id="type">
+                    <option th:each="t: ${types}" th:value="${t}" th:text="${t}"></option>
+                  </select>
+                  <label for="type">Type:</label>
+                </div>
               </div>
               <div class="row">
                 <label for="amount">Amount:</label>
@@ -50,7 +55,7 @@
           </div>
 
           <div class="col s12 m6">
-            <h5>History</h5>
+            <h5>Salary</h5>
             <table class="bordered">
               <tr>
                 <th>id</th>
@@ -59,7 +64,7 @@
                 <th>type</th>
                 <th>amount</th>
               </tr>
-              <tr th:each="in: ${incomes}">
+              <tr th:each="in: ${salary}">
                 <td th:text="${in.id}"></td>
                 <td th:text="${in.date}"></td>
                 <td th:text="${in.source}"></td>
@@ -69,14 +74,47 @@
             </table>
           </div>
         </div>
+      </div>
+
+      <div class="section">
+        <div class="row">
+          <h5>Incomes</h5>
+        </div>
+        <div class="row" style="overflow: auto;">
+          <div class="scrollable">
+            <div class="left">
+              <table class="bordered" id="dates">
+                <tr><th>Month</th></tr>
+                <tr th:each="m: ${incomes.keySet()}">
+                  <td th:text="${m.ordinal() + 1}"></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table class="bordered" id="spendings">
+                <col style="min-width: 50px"/>
+                <tr>
+                  <th th:each="t: ${types}" th:text="${t}"></th>
+                  <!--<th>Total</th>-->
+                </tr>
+                <tr th:each="in: ${incomes.values()}">
+                  <td th:each="am : ${in}" th:text="${am}"></td>
+                </tr>
+                <!--<tr style="font-weight:500;border:none;">
+                  <td th:each="ct: ${catTotals}" th:text="${ct}"></td>
+                </tr>-->
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script>
-
       $(document).ready(function () {
+        $('#type').material_select();
         $(".button-collapse").sideNav();
       });
-
     </script>
 
 </body>

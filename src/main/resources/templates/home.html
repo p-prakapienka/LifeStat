@@ -77,46 +77,48 @@
       <div class="row">
         <h5>Current Month</h5>
       </div>
-      <div class="row scrollable">
-        <div class="left">
-          <table class="bordered" id="dates">
-            <tr><th>Date</th></tr>
-            <tr th:each="ds: ${dailySpendings}">
-              <td>
-                <span th:text="${ds.date}"></span>
-                <a th:if="${ds.generated}" th:href="@{submit(date=${ds.date})}"
-                   onclick="return confirm('Are you sure?');">
-                  <i class="material-icons">done</i>
-                </a>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div>
-          <table class="bordered" id="spendings">
-            <col style="min-width: 50px"/>
-            <tr>
-              <th th:each="c: ${categories}" th:text="${c}"></th>
-              <th>Total</th>
-            </tr>
-            <tr th:each="ds: ${dailySpendings}">
-              <td th:text="${ds.foodAmount}"></td>
-              <td th:text="${ds.cigAmount}"></td>
-              <td th:text="${ds.entmtAmount}"></td>
-              <td th:text="${ds.transpAmount}"></td>
-              <td th:text="${ds.houseAmount}"></td>
-              <td th:text="${ds.commAmount}"></td>
-              <td th:text="${ds.hobbyAmount}"></td>
-              <td th:text="${ds.majorAmount}"></td>
-              <td th:text="${ds.debtAmount}"></td>
-              <td th:text="${ds.rentAmount}"></td>
-              <td th:text="${ds.bankAmount}"></td>
-              <td th:text="${ds.total}"></td>
-            </tr>
-            <tr style="font-weight:500;border:none;">
-              <td th:each="ct: ${catTotals}" th:text="${ct}"></td>
-            </tr>
-          </table>
+      <div class="row" style="overflow: auto;">
+        <div class="scrollable">
+          <div class="left">
+            <table class="bordered" id="dates">
+              <tr><th>Date</th></tr>
+              <tr th:each="ds: ${dailySpendings}">
+                <td>
+                  <span th:text="${ds.date}"></span>
+                  <a th:if="${ds.generated}" th:href="@{submit(date=${ds.date})}"
+                     onclick="return confirm('Are you sure?');">
+                    <i class="material-icons">done</i>
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div>
+            <table class="bordered" id="spendings">
+              <col style="min-width: 50px"/>
+              <tr>
+                <th th:each="c: ${categories}" th:text="${c}"></th>
+                <th>Total</th>
+              </tr>
+              <tr th:each="ds: ${dailySpendings}">
+                <td th:text="${ds.foodAmount}"></td>
+                <td th:text="${ds.cigAmount}"></td>
+                <td th:text="${ds.entmtAmount}"></td>
+                <td th:text="${ds.transpAmount}"></td>
+                <td th:text="${ds.houseAmount}"></td>
+                <td th:text="${ds.commAmount}"></td>
+                <td th:text="${ds.hobbyAmount}"></td>
+                <td th:text="${ds.majorAmount}"></td>
+                <td th:text="${ds.debtAmount}"></td>
+                <td th:text="${ds.rentAmount}"></td>
+                <td th:text="${ds.bankAmount}"></td>
+                <td th:text="${ds.total}"></td>
+              </tr>
+              <tr style="font-weight:500;border:none;">
+                <td th:each="ct: ${catTotals}" th:text="${ct}"></td>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
     </div>

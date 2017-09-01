@@ -5,6 +5,7 @@ html {
 .scrollable {
   overflow-x: auto;
   min-width: 700px;
+  max-width: 100%;
 }
 
 #sidenav-overlay {
