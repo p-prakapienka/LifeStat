@@ -23,7 +23,8 @@ public class SpendingService {
 
     public List<Spending> getRecentSpendings() {
         return spendingRepository.findAll().stream()
-            .sorted(Comparator.comparing(Spending::getDate).reversed())
+            .sorted(Comparator.comparing(Spending::getDate).reversed()
+                .thenComparing(Comparator.comparingLong(Spending::getId).reversed()))
             .collect(Collectors.toList());
     }
 

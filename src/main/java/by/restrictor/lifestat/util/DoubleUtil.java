@@ -12,4 +12,9 @@ public class DoubleUtil {
         return result.setScale(2, RoundingMode.HALF_UP).doubleValue();
     }
 
+    public static double subtract(double d1, double d2) {
+        BigDecimal result = new BigDecimal(d1).subtract(new BigDecimal(d2));
+        return result.setScale(2, RoundingMode.HALF_UP).doubleValue();
+    }
+
 }

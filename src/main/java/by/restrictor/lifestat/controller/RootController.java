@@ -1,6 +1,7 @@
 package by.restrictor.lifestat.controller;
 
 import static by.restrictor.lifestat.model.Categories.CATEGORIES;
+import static by.restrictor.lifestat.util.DoubleUtil.subtract;
 import static by.restrictor.lifestat.util.DoubleUtil.sum;
 
 import by.restrictor.lifestat.model.DailyStatement;
@@ -11,10 +12,8 @@ import by.restrictor.lifestat.service.SpendingService;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -48,7 +47,7 @@ public class RootController {
 
         double total = countTotal(dailyStatements);
         double incomes = incomeRepository.findAll().stream().mapToDouble(Income::getAmount).sum();
-        model.addAttribute("balance", incomes - total);
+        model.addAttribute("balance", subtract(incomes, total));
         return "home";
     }
 
