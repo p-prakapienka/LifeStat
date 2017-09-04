@@ -16,14 +16,14 @@ public class Spending {
     @GeneratedValue(generator = "spending_generator")
     private Long id;
 
-    @Column(name = "date")
+    @Column(name = "date", nullable = false)
     @OrderBy(value = "DESC")
     private LocalDate date;
 
-    @Column(name = "category")
+    @Column(name = "category", nullable = false)
     private String category;
 
-    @Column(name = "amount")
+    @Column(name = "amount", nullable = false)
     private double amount;
 
     public Spending() {

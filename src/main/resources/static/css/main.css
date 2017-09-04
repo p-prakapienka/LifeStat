@@ -21,6 +21,11 @@ html {
   max-width: inherit;
 }
 
+div.recent {
+  max-height: 465px;
+  overflow: auto;
+}
+
 #debt-return {
   display: none;
 }

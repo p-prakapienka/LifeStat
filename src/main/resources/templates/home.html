@@ -57,18 +57,20 @@
         </div>
         <div class="col s12 m6">
           <h5>Recent</h5>
-          <table class="bordered">
-            <tr>
-              <th>date</th>
-              <th>category</th>
-              <th>amount</th>
-            </tr>
-            <tr th:each="sp: ${spendings}">
-              <td th:text="${sp.date}"></td>
-              <td th:text="${sp.category}"></td>
-              <td th:text="${sp.amount}"></td>
-            </tr>
-          </table>
+          <div class="recent">
+            <table class="bordered">
+              <tr>
+                <th>date</th>
+                <th>category</th>
+                <th>amount</th>
+              </tr>
+              <tr th:each="sp: ${spendings}">
+                <td th:text="${sp.date}"></td>
+                <td th:text="${sp.category}"></td>
+                <td th:text="${sp.amount}"></td>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
     </div>

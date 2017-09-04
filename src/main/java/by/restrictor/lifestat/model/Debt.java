@@ -15,30 +15,34 @@ public class Debt {
     @GeneratedValue(generator = "spending_generator")
     private Long id;
 
-    @Column(name = "date")
+    @Column(name = "date", nullable = false)
     private LocalDate date;
 
-    @Column(name = "creditor")
+    @Column(name = "creditor", nullable = false)
     private String creditor;
 
-    @Column(name = "currency")
+    @Column(name = "currency", nullable = false)
     private String currency;
 
     @Column(name = "description")
     private String description;
 
-    @Column(name = "amount")
+    @Column(name = "init_amount", nullable = false)
+    private int initAmount;
+
+    @Column(name = "amount", nullable = false)
     private int amount;
 
     public Debt() {
     }
 
-    public Debt(LocalDate date, String creditor, String currency, String description, int amount) {
+    public Debt(LocalDate date, String creditor, String currency, String description, int initAmount) {
         this.date = date;
         this.creditor = creditor;
         this.currency = currency;
         this.description = description;
-        this.amount = amount;
+        this.initAmount = initAmount;
+        this.amount = initAmount;
     }
 
     public Long getId() {
@@ -79,6 +83,14 @@ public class Debt {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getInitAmount() {
+        return initAmount;
+    }
+
+    public void setInitAmount(int initAmount) {
+        this.initAmount = initAmount;
     }
 
     public int getAmount() {

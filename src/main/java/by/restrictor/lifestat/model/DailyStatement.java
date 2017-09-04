@@ -20,7 +20,7 @@ public class DailyStatement {
     @GeneratedValue(generator = "daily_stmt_generator")
     private Long id;
 
-    @Column(name = "date")
+    @Column(name = "date", nullable = false)
     @OrderBy
     private LocalDate date;
 
