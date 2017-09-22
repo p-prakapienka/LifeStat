@@ -1,5 +1,7 @@
 package by.restrictor.lifestat.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -12,6 +14,7 @@ public class Income {
     private Long id;
 
     @Column(name = "date", nullable = false)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate date;
 
     @Column(name = "source", nullable = false)

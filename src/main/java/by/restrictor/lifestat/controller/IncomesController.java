@@ -16,12 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/income")
@@ -59,6 +59,14 @@ public class IncomesController {
         @RequestParam("amount") double amount) {
         incomeRepository.save(new Income(date, source, type, amount));
         return "redirect:income";
+    }
+
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public void update(@PathVariable("id") long id, @RequestBody @Valid Income income) {
+        Income original = incomeRepository.findOne(id);
+        original.setDate(income.getDate());
+        incomeRepository.save(original);
     }
 
 }
