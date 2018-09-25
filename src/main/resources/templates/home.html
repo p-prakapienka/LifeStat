@@ -4,148 +4,198 @@
 </head>
 <body>
 
-  <div class="navbar-fixed">
+<div class="navbar-fixed">
     <nav class="teal darken-1">
-      <div class="nav-wrapper">
-        <a class="brand-logo right">LifeStat</a>
-        <a href="#" data-activates="mobile-menu" class="button-collapse"><i class="material-icons">menu</i></a>
-        <ul id="nav-mobile" class="left hide-on-med-and-down">
-          <li class="active"><a>Home</a></li>
-          <li><a href="debts">Debts</a></li>
-          <li><a href="income">Incomes</a></li>
-        </ul>
-        <ul class="side-nav" id="mobile-menu">
-          <li class="active"><a>Home</a></li>
-          <li><a href="debts">Debts</a></li>
-          <li><a href="income">Incomes</a></li>
-        </ul>
-      </div>
+        <div class="nav-wrapper">
+            <a class="brand-logo right">LifeStat</a>
+            <a href="#" data-activates="mobile-menu" class="button-collapse"><i class="material-icons">menu</i></a>
+            <ul id="nav-mobile" class="left hide-on-med-and-down">
+                <li class="active"><a>Home</a></li>
+                <li><a href="debts">Debts</a></li>
+                <li><a href="income">Incomes</a></li>
+            </ul>
+            <ul class="side-nav" id="mobile-menu">
+                <li class="active"><a>Home</a></li>
+                <li><a href="debts">Debts</a></li>
+                <li><a href="income">Incomes</a></li>
+            </ul>
+        </div>
     </nav>
-  </div>
+</div>
 
-  <div class="container">
+<div class="container">
 
     <div class="section">
-      <div class="row">
-        <div class="col s12 m6">
-          <h5>New entry</h5>
-          <div class="divider"></div>
-          <p th:text="'Current Balance: ' + ${balance}"></p>
-          <label>Bill sum:</label>
-          <input type="number" step="0.01" id="bill-sum"/>
-          <form method="post" id="spending-form">
-            <div class="row">
-              <label for="date" class="">Date:</label>
-              <input type="date" name="date" id="date"/>
+        <div class="row">
+            <div class="col s4">
+                <h5>Balance</h5>
             </div>
-            <div class="row">
-              <div class="input-field">
-                <select name="category" id="category">
-                  <option th:each="c: ${categories}" th:value="${c}" th:text="${c}"></option>
-                </select>
-                <label for="category">Category:</label>
-              </div>
+            <div class="col s2">
+                <p th:text="'Card: ' + ${balance.cardBalance}"></p>
             </div>
-            <div class="row">
-              <div class="input-field">
-                <input type="number" step="0.01" name="amount" id="amount"/>
-                <label for="amount">Amount:</label>
-              </div>
+            <div class="col s2">
+                <p th:text="'Cash: ' + ${balance.cash}"></p>
             </div>
-            <input class="waves-effect waves-light btn" type="submit" value="Save"/>
-          </form>
+            <div class="col s2">
+                <p th:text="'Total: ' + ${balance.total}"></p>
+            </div>
+            <div class="col s2">
+                <a class="waves-effect waves-light btn modal-trigger" href="#balance-modal">Update</a>
+            </div>
+            <div class="divider"></div>
         </div>
-        <div class="col s12 m6">
-          <h5>Recent</h5>
-          <div class="recent">
-            <table class="bordered">
-              <tr>
-                <th>date</th>
-                <th>category</th>
-                <th>amount</th>
-              </tr>
-              <tr th:each="sp: ${spendings}">
-                <td th:text="${sp.date}"></td>
-                <td th:text="${sp.category}"></td>
-                <td th:text="${sp.amount}"></td>
-              </tr>
-            </table>
-          </div>
+
+        <div class="row">
+            <div class="col s12 m6">
+                <h5>New entry</h5>
+                <div class="divider"></div>
+                <label>Bill sum:</label>
+                <input type="number" step="0.01" id="bill-sum"/>
+                <form method="post" id="spending-form">
+                    <div class="row">
+                        <label for="date" class="">Date:</label>
+                        <input type="date" name="date" id="date"/>
+                    </div>
+                    <div class="row">
+                        <div class="input-field">
+                            <select name="category" id="category">
+                                <option th:each="c: ${categories}" th:value="${c}" th:text="${c}"></option>
+                            </select>
+                            <label for="category">Category:</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field">
+                            <input type="number" step="0.01" name="amount" id="amount"/>
+                            <label for="amount">Amount:</label>
+                        </div>
+                    </div>
+                    <input class="waves-effect waves-light btn" type="submit" value="Save"/>
+                </form>
+            </div>
+            <div class="col s12 m6">
+                <h5>Recent</h5>
+                <div class="recent">
+                    <table class="bordered">
+                        <tr>
+                            <th>date</th>
+                            <th>category</th>
+                            <th>amount</th>
+                        </tr>
+                        <tr th:each="sp: ${spendings}">
+                            <td th:text="${sp.date}"></td>
+                            <td th:text="${sp.category}"></td>
+                            <td th:text="${sp.amount}"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 
     <div class="section">
-      <div class="row">
-        <h5>Current Month</h5>
-      </div>
-      <div class="row" style="overflow: auto;">
-        <div class="scrollable">
-          <div class="left">
-            <table class="bordered" id="dates">
-              <tr><th>Date</th></tr>
-              <tr th:each="ds: ${dailySpendings}">
-                <td>
-                  <span th:text="${ds.date}"></span>
-                  <a th:if="${ds.generated}" th:href="@{submit(date=${ds.date})}"
-                     onclick="return confirm('Are you sure?');">
-                    <i class="material-icons">done</i>
-                  </a>
-                </td>
-              </tr>
-            </table>
-          </div>
-          <div>
-            <table class="bordered" id="spendings">
-              <col style="min-width: 50px"/>
-              <tr>
-                <th th:each="c: ${categories}" th:text="${c}"></th>
-                <th>Total</th>
-              </tr>
-              <tr th:each="ds: ${dailySpendings}">
-                <td th:text="${ds.foodAmount}"></td>
-                <td th:text="${ds.cigAmount}"></td>
-                <td th:text="${ds.entmtAmount}"></td>
-                <td th:text="${ds.transpAmount}"></td>
-                <td th:text="${ds.houseAmount}"></td>
-                <td th:text="${ds.commAmount}"></td>
-                <td th:text="${ds.hobbyAmount}"></td>
-                <td th:text="${ds.majorAmount}"></td>
-                <td th:text="${ds.debtAmount}"></td>
-                <td th:text="${ds.rentAmount}"></td>
-                <td th:text="${ds.bankAmount}"></td>
-                <td th:text="${ds.total}"></td>
-              </tr>
-              <tr style="font-weight:500;border:none;">
-                <td th:each="ct: ${catTotals}" th:text="${ct}"></td>
-              </tr>
-            </table>
-          </div>
+        <div class="row">
+            <h5>Current Month</h5>
         </div>
-      </div>
+        <div class="row" style="overflow: auto;">
+            <div class="scrollable">
+                <div class="left">
+                    <table class="bordered" id="dates">
+                        <tr>
+                            <th>Date</th>
+                        </tr>
+                        <tr th:each="ds: ${dailySpendings}">
+                            <td>
+                                <span th:text="${ds.date}"></span>
+                                <a th:if="${ds.generated}" th:href="@{submit(date=${ds.date})}"
+                                   onclick="return confirm('Are you sure?');">
+                                    <i class="material-icons">done</i>
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+                    <table class="bordered" id="spendings">
+                        <col style="min-width: 50px"/>
+                        <tr>
+                            <th th:each="c: ${categories}" th:text="${c}"></th>
+                            <th>Total</th>
+                        </tr>
+                        <tr th:each="ds: ${dailySpendings}">
+                            <td th:text="${ds.foodAmount}"></td>
+                            <td th:text="${ds.cigAmount}"></td>
+                            <td th:text="${ds.entmtAmount}"></td>
+                            <td th:text="${ds.transpAmount}"></td>
+                            <td th:text="${ds.houseAmount}"></td>
+                            <td th:text="${ds.commAmount}"></td>
+                            <td th:text="${ds.hobbyAmount}"></td>
+                            <td th:text="${ds.majorAmount}"></td>
+                            <td th:text="${ds.debtAmount}"></td>
+                            <td th:text="${ds.rentAmount}"></td>
+                            <td th:text="${ds.bankAmount}"></td>
+                            <td th:text="${ds.total}"></td>
+                        </tr>
+                        <tr style="font-weight:500;border:none;">
+                            <td th:each="ct: ${catTotals}" th:text="${ct}"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 
-  </div>
+</div>
 
-  <script>
+<div id="balance-modal" class="modal">
+    <div class="modal-content">
+        <div class="row">
+            <h4>Update balance</h4>
+            <form class="col-12" method="post" action="/balance" id="balance-form">
+                <div class="row">
+                    <div class="input-field">
+                        <input type="number" step="0.01" name="cardBalance" id="cardBalance"
+                               th:value="${balance.cardBalance}"/>
+                        <label for="cardBalance">Card:</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field">
+                        <input type="number" step="0.01" name="cash" id="cash"
+                               th:value="${balance.cash}"/>
+                        <label for="cash">Cash:</label>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat"
+           onclick="$('#balance-form').submit()">Save</a>
+    </div>
+</div>
+
+<script>
     $(document).ready(function () {
-      var billSum = $('#bill-sum');
-      billSum.val($.cookie('billSum') ? $.cookie('billSum') : '');
+        $('.modal').modal();
 
-      $('#category').material_select();
-      $(".button-collapse").sideNav();
+        var billSum = $('#bill-sum');
+        billSum.val($.cookie('billSum') ? $.cookie('billSum') : '');
 
-      $('#spending-form').submit(function (event) {
-        var billValue = $('#bill-sum').val();
-        if (billValue > 0) {
-          billValue -= $('#amount').val();
-          $.cookie('billSum', billValue);
-        } else {
-          $.cookie('billSum', null);
-        }
-      });
+        $('#category').material_select();
+        $(".button-collapse").sideNav();
+
+        $('#spending-form').submit(function (event) {
+            var billValue = $('#bill-sum').val();
+            if (billValue > 0) {
+                billValue -= $('#amount').val();
+                $.cookie('billSum', billValue);
+            } else {
+                $.cookie('billSum', null);
+            }
+        });
     });
-  </script>
+</script>
 
 </body>
 </html>

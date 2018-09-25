@@ -1,27 +1,24 @@
 package by.restrictor.lifestat.controller;
 
 import static by.restrictor.lifestat.model.Categories.CATEGORIES;
-import static by.restrictor.lifestat.util.DoubleUtil.subtract;
 import static by.restrictor.lifestat.util.DoubleUtil.sum;
 
+import by.restrictor.lifestat.model.Balance;
 import by.restrictor.lifestat.model.DailyStatement;
-import by.restrictor.lifestat.model.Income;
 import by.restrictor.lifestat.model.Spending;
-import by.restrictor.lifestat.repository.IncomeRepository;
+import by.restrictor.lifestat.service.BalanceService;
 import by.restrictor.lifestat.service.SpendingService;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class RootController {
@@ -30,7 +27,7 @@ public class RootController {
     private SpendingService spendingService;
 
     @Autowired
-    private IncomeRepository incomeRepository;
+    private BalanceService balanceService;
 
     @GetMapping("/")
     public String root(Model model) {
@@ -45,9 +42,13 @@ public class RootController {
         List<Double> categoryTotals = getCategoryTotals(dailyStatements);
         model.addAttribute("catTotals", categoryTotals);
 
-        double total = countTotal(dailyStatements);
-        double incomes = incomeRepository.findAll().stream().mapToDouble(Income::getAmount).sum();
-        model.addAttribute("balance", subtract(incomes, total));
+        //TODO 25.09.2018 use this to count difference with balance
+//        double total = countTotal(dailyStatements);
+//        double incomes = incomeRepository.findAll().stream().mapToDouble(Income::getAmount).sum();
+//        model.addAttribute("balance", DoubleUtil.subtract(incomes, total));
+
+        model.addAttribute("balance", balanceService.load());
+
         return "home";
     }
 
@@ -64,6 +65,12 @@ public class RootController {
         @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
 
         spendingService.submitDate(date);
+        return "redirect:/";
+    }
+
+    @PostMapping("/balance")
+    public String saveBalance(@ModelAttribute Balance balance) {
+        balanceService.save(balance);
         return "redirect:/";
     }
 
