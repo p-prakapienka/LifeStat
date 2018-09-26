@@ -151,7 +151,7 @@
     <div class="modal-content">
         <div class="row">
             <h4>Update balance</h4>
-            <form class="col-12" method="post" action="/balance" id="balance-form">
+            <form class="col-12" method="post" th:action="@{/balance}" id="balance-form">
                 <div class="row">
                     <div class="input-field">
                         <input type="number" step="0.01" name="cardBalance" id="cardBalance"
