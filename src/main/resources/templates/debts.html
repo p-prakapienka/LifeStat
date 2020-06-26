@@ -4,96 +4,103 @@
 </head>
 <body>
 
-  <div class="navbar-fixed">
+<div class="navbar-fixed">
     <nav class="teal darken-1">
-      <div class="nav-wrapper">
-        <a class="brand-logo right">LifeStat</a>
-        <a href="#" data-activates="mobile-menu" class="button-collapse"><i class="material-icons">menu</i></a>
-        <ul id="nav-mobile" class="left hide-on-med-and-down">
-          <li><a href="/">Home</a></li>
-          <li class="active"><a>Debts</a></li>
-          <li><a href="income">Incomes</a></li>
-        </ul>
-        <ul class="side-nav" id="mobile-menu">
-          <li><a href="/">Home</a></li>
-          <li class="active"><a>Debts</a></li>
-          <li><a href="income">Incomes</a></li>
-        </ul>
-      </div>
+        <div class="nav-wrapper">
+            <a class="brand-logo right">LifeStat</a>
+            <a href="#" data-activates="mobile-menu" class="button-collapse"><i class="material-icons">menu</i></a>
+            <ul id="nav-mobile" class="left hide-on-med-and-down">
+                <li><a href="/">Home</a></li>
+                <li class="active"><a>Debts</a></li>
+                <li><a href="income">Incomes</a></li>
+            </ul>
+            <ul class="side-nav" id="mobile-menu">
+                <li><a href="/">Home</a></li>
+                <li class="active"><a>Debts</a></li>
+                <li><a href="income">Incomes</a></li>
+            </ul>
+        </div>
     </nav>
-  </div>
+</div>
 
-  <div class="container">
+<div class="container">
     <div class="row">
-      <form method="post" id="debt-form" class="col m6 s12">
-        <div class="row">
-          <label for="date" class="">Date:</label>
-          <input type="date" name="date" id="date"/>
-        </div>
-        <div class="row">
-          <label for="creditor">Creditor:</label>
-          <input name="creditor" id="creditor"/>
-        </div>
-        <div class="row">
-          <label for="description">Description:</label>
-          <input name="description" id="description"/>
-        </div>
-        <div class="row">
-          <div class="input-field">
-            <input type="number" name="amount" id="amount"/>
-            <label for="amount">Amount:</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field">
-            <select name="currency" id="currency">
-              <option th:text="USD" th:value="USD"></option>
-              <option th:text="BYN" th:value="BYN"></option>
-            </select>
-            <label for="currency">Currency:</label>
-          </div>
-        </div>
-        <input class="waves-effect waves-light btn" type="submit" value="Save"/>
-      </form>
-      <div class="col m6 s12">
-        <form method="post" id="debt-return">
-          <label></label>
-          <input name="amount" type="number" id="subtract-amount"/>
-          <input class="waves-effect waves-light btn" type="submit" value="Submit"/>
-        </form>
-      </div>
-      <div class="col m6 s12" th:each="debt: ${debts}">
-        <ul class="collection with-header">
-          <li class="collection-header" th:text="${debt.key}"></li>
-          <li class="collection-item" th:each="d: ${debt.value}">
-            <div th:attr="data-debt-id=${d.id}" class="debt-entry">
-              <span th:text="${d.date}"></span>
-              <span th:text="${d.description}"></span>
-              <a class="secondary-content" th:text="${d.amount} + ' ' + ${d.currency}"></a>
+        <div class="col m6 s12">
+            <div class="card-panel">
+                <form method="post" id="debt-form" class="col m6 s12">
+                <div class="row">
+                    <label for="date" class="">Date:</label>
+                    <input type="date" name="date" id="date"/>
+                </div>
+                <div class="row">
+                    <label for="creditor">Creditor:</label>
+                    <input name="creditor" id="creditor"/>
+                </div>
+                <div class="row">
+                    <label for="description">Description:</label>
+                    <input name="description" id="description"/>
+                </div>
+                <div class="row">
+                    <div class="input-field">
+                        <input type="number" name="amount" id="amount"/>
+                        <label for="amount">Amount:</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field">
+                        <select name="currency" id="currency">
+                            <option th:text="USD" th:value="USD"></option>
+                            <option th:text="BYN" th:value="BYN"></option>
+                        </select>
+                        <label for="currency">Currency:</label>
+                    </div>
+                </div>
+                <input class="waves-effect waves-light btn" type="submit" value="Save"/>
+            </form>
             </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
+        </div>
 
-  <script>
+        <div class="col m6 s12">
+            <div class="card-panel">
+                <form method="post" id="debt-return">
+                    <label></label>
+                    <input name="amount" type="number" id="subtract-amount"/>
+                    <input class="waves-effect waves-light btn" type="submit" value="Submit"/>
+                </form>
+            </div>
+        </div>
+        <div class="col m6 s12" th:each="debt: ${debts}">
+            <ul class="collection with-header">
+                <li class="collection-header" th:text="${debt.key}"></li>
+                <li class="collection-item" th:each="d: ${debt.value}">
+                    <div th:attr="data-debt-id=${d.id}" class="debt-entry">
+                        <span th:text="${d.date}"></span>
+                        <span th:text="${d.description}"></span>
+                        <a class="secondary-content" th:text="${d.amount} + ' ' + ${d.currency}"></a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
     $(document).ready(function () {
 
-      $('#currency').material_select();
-      $(".button-collapse").sideNav();
+        $('#currency').material_select();
+        $(".button-collapse").sideNav();
 
-      $('.debt-entry').click(function () {
-        var debtId = $(this).data('debtId');
-        var creditor = $(this).parent().parent().children().first().text();
-        var subtractInput = $('#subtract-amount');
-        subtractInput.prev().text('Return to ' + creditor);
-        subtractInput.parent().attr('action', 'debts/' + debtId + '/subtract')
-        subtractInput.parent().addClass('active');
-      });
+        $('.debt-entry').click(function () {
+            var debtId = $(this).data('debtId');
+            var creditor = $(this).parent().parent().children().first().text();
+            var subtractInput = $('#subtract-amount');
+            subtractInput.prev().text('Return to ' + creditor);
+            subtractInput.parent().attr('action', 'debts/' + debtId + '/subtract')
+            subtractInput.parent().addClass('active');
+        });
 
     });
-  </script>
+</script>
 
 </body>
 </html>
